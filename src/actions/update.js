@@ -1,7 +1,6 @@
-export const updateSuccess = note => {
-return {
-      type: "UPDATE_SUCCESS",
-      note: note,
-    };
+export const updateNotesSuccess = note => {
+  return {
+    type: "UPDATE_NOTE_SUCCESS",
+    note,
   };
-  
+};{}

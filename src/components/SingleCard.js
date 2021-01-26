@@ -1,21 +1,28 @@
 import React, { Component } from "react";
 import { TextArea, Form, Segment, Button, Grid } from "semantic-ui-react";
 import { connect } from "react-redux";
-// import { updateSuccess } from "../actions/update";
-// import { Redirect } from "react-router-dom";
+import { updateNotesSuccess } from "../actions/update";
 
 class SingleCard extends Component {
   constructor(props) {
     super(props);
 
+    let filteredNote = this.props.note.find(note => {
+      return note.id == this.props.match.params.id;
+    });
+
     this.state = {
       //INSTEAD OF EMPTY STRING  ASSIGNEE VALUE FROM PROPS PASSED IN AFTER CLICK
-      title: "",
-      description: "",
-      completed: false,
-      redirect: false,
+      id: filteredNote.id,
+      title: filteredNote.title,
+      description: filteredNote.description,
+      completed: filteredNote.completed,
     };
   }
+
+  componentDidMount = () => {
+    console.log(this.props);
+  };
 
   handleSubmit = e => {
     e.preventDefault();
@@ -27,13 +34,22 @@ class SingleCard extends Component {
       body: JSON.stringify(this.state),
     };
 
-    // fetch(`http://localhost:3000/notes${note.id}`, reqObj)
-    //   .then(resp => resp.json())
-    //   .then(data => {this.props.updatedNote(data); this.props.history.push("/sign-up");}); SEND ACTION WITH NEW UPDATED NOTE and REDIRECT TO ALL NOTES
+    fetch(`http://localhost:3000/notes/${this.state.id}`, reqObj)
+      .then(resp => resp.json())
+      .then(data => {
+        console.log(data);
+        this.props.updateNote(data);
+        this.props.history.goBack();
+      });
+  };
+
+  handleChange = e => {
+    this.setState({
+      [e.target.name]: e.target.value,
+    });
   };
 
   render() {
-    console.log(this.props.match.params.id);
     return (
       <div>
         <Grid
@@ -44,10 +60,16 @@ class SingleCard extends Component {
           <Grid.Column style={{ maxWidth: 450 }}>
             <Segment stacked>
               <Form onSubmit={this.handleSubmit} size='large'>
-                <TextArea value={this.props.note.description} />{" "}
+                <TextArea
+                  value={this.state.title}
+                  onChange={this.handleChange}
+                  name='title'
+                />
                 <TextArea
                   placeholder=''
-                  value={this.props.note.description} //ASSIGNEE FROM STATE
+                  value={this.state.description} //ASSIGNEE FROM STATE
+                  onChange={this.handleChange}
+                  name='description'
                 />
                 <Button
                   color='teal'
@@ -68,15 +90,13 @@ class SingleCard extends Component {
 }
 
 const mapStateToProps = state => {
-  // const desiredNote = state.currentUser.notes.filter(note => {
-  //   return note.id === this.props.match.params.id;
-  // });
   return {
-    note: state,
+    note: state.notes.notes,
   };
 };
 
-// const mapDispatchToProps = {
-//   updatedNote: updateSuccess,
-// };
-export default connect(mapStateToProps, null)(SingleCard);
+const mapDispatchToProps = {
+  updateNote: updateNotesSuccess,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(SingleCard);

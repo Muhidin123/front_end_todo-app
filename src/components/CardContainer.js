@@ -1,8 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Route } from "react-router-dom";
 import NoteCard from "./NoteCard";
-import SingleCard from "./SingleCard";
 
 class CardContainer extends Component {
   render() {
@@ -10,7 +8,9 @@ class CardContainer extends Component {
     return (
       <div className='ui four stackable cards'>
         {this.props.notes.map(note => {
-          return <NoteCard note={note} key={note.id} history={this.props.history}/>;
+          return (
+            <NoteCard note={note} key={note.id} history={this.props.history} />
+          );
         })}
       </div>
     );
@@ -19,7 +19,7 @@ class CardContainer extends Component {
 
 const mapStateToProps = state => {
   return {
-    notes: state.currentUser.notes,
+    notes: state.notes.notes,
   };
 };
 

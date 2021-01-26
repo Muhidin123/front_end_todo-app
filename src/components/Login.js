@@ -1,6 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { loginSuccess } from "../actions/login";
+import { notesFetchSuccess } from "../actions/notes";
 
 import {
   Button,
@@ -48,9 +49,10 @@ class LoginForm extends React.Component {
             error: true,
           });
         } else {
-          console.log(data);
+          console.log(data.notes);
           localStorage.setItem("jwt", data.user.token);
           this.props.currentUser(data);
+          this.props.notes(data.notes);
           this.props.history.push("/todos");
         }
       });
@@ -106,10 +108,10 @@ class LoginForm extends React.Component {
   }
 }
 
-// export default LoginForm;
 
 const mapDispatchToProps = {
   currentUser: loginSuccess,
+  notes: notesFetchSuccess,
 };
 
 export default connect(null, mapDispatchToProps)(LoginForm);
