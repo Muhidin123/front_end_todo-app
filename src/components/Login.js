@@ -16,12 +16,19 @@ class LoginForm extends React.Component {
     super(props);
 
     this.state = {
-      username: "muhidin",
-      password: "muhidin",
+      username: "",
+      password: "",
+      error: false,
     };
   }
 
   componentDidMount = () => {};
+
+  handleChange = e => {
+    this.setState({
+      [e.target.name]: e.target.value,
+    });
+  };
 
   handleSubmit = () => {
     const reqObj = {
@@ -35,14 +42,16 @@ class LoginForm extends React.Component {
     fetch("http://localhost:3000/auth", reqObj)
       .then(resp => resp.json())
       .then(data => {
-        console.log(data);
-
         if (data.error) {
           console.log(data.error);
-          this.props.history.push("/todos");
+          this.setState({
+            error: true,
+          });
         } else {
-          console.log(this.props);
+          console.log(data);
+          localStorage.setItem("jwt", data.user.token);
           this.props.currentUser(data);
+          this.props.history.push("/todos");
         }
       });
   };
@@ -64,16 +73,25 @@ class LoginForm extends React.Component {
                 fluid
                 icon='user'
                 iconPosition='left'
-                placeholder='E-mail address'
+                placeholder='username'
+                name='username'
+                onChange={e => {
+                  this.handleChange(e);
+                }}
+                error={this.state.error}
               />
               <Form.Input
                 fluid
                 icon='lock'
+                name='password'
                 iconPosition='left'
                 placeholder='Password'
                 type='password'
+                onChange={e => {
+                  this.handleChange(e);
+                }}
+                error={this.state.error}
               />
-
               <Button color='teal' fluid size='large'>
                 Login
               </Button>
@@ -90,8 +108,8 @@ class LoginForm extends React.Component {
 
 // export default LoginForm;
 
-const mapDispatchtoProps = {
+const mapDispatchToProps = {
   currentUser: loginSuccess,
 };
 
-export default connect(null, mapDispatchtoProps)(LoginForm);
+export default connect(null, mapDispatchToProps)(LoginForm);
