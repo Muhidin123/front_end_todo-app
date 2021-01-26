@@ -1,13 +1,26 @@
 import React from "react";
-import SingleCard from "./SingleCard";
-// import { Route, Redirect, BrowserRouter, Switch } from "react-router-dom";
-// import SingleCard from "./SingleCard";
+
+import { connect } from "react-redux";
+import { deleteNoteSuccess } from "../actions/delete";
+import { withRouter } from "react-router-dom";
 
 class NoteCard extends React.Component {
-  handleClick = () => {
+  handleEdit = () => {
     const { id } = this.props.note;
 
-    this.props.history.push(`/todos/${id}`);
+    this.props.history.push(`/todos/edit/${id}`);
+  };
+
+  handleDelete = params => {
+    const { id } = this.props.note;
+
+    const reqObj = {
+      method: "DELETE",
+    };
+
+    fetch(`http://localhost:3000/notes/${id}`, reqObj).then(data => {
+      this.props.delete(id);
+    });
   };
 
   render() {
@@ -26,12 +39,21 @@ class NoteCard extends React.Component {
           <i className='check icon'></i>
           Maybe set a due date
         </div>
-        <div className='ui bottom attached button' onClick={this.handleClick}>
-          <i className='add icon'></i>
-          Completed
+        <div className='ui two buttons'>
+          {/* <i className='add icon'></i> */}
+          <div className='ui basic green button' onClick={this.handleEdit}>
+            EDIT
+          </div>
+          <div className='ui basic red button' onClick={this.handleDelete}>
+            DELETE
+          </div>
         </div>
       </div>
     );
   }
 }
-export default NoteCard;
+const mapDispatchToProps = {
+  delete: deleteNoteSuccess,
+};
+
+export default connect(null, mapDispatchToProps)(withRouter(NoteCard));

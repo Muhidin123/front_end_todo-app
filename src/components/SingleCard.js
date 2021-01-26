@@ -12,7 +12,6 @@ class SingleCard extends Component {
     });
 
     this.state = {
-      //INSTEAD OF EMPTY STRING  ASSIGNEE VALUE FROM PROPS PASSED IN AFTER CLICK
       id: filteredNote.id,
       title: filteredNote.title,
       description: filteredNote.description,
@@ -67,7 +66,7 @@ class SingleCard extends Component {
                 />
                 <TextArea
                   placeholder=''
-                  value={this.state.description} //ASSIGNEE FROM STATE
+                  value={this.state.description}
                   onChange={this.handleChange}
                   name='description'
                 />

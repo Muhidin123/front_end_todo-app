@@ -3,4 +3,4 @@ export const updateNotesSuccess = note => {
     type: "UPDATE_NOTE_SUCCESS",
     note,
   };
-};{}
+};

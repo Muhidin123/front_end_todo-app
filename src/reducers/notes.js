@@ -14,6 +14,13 @@ const notesReducer = (state = [], action) => {
         }
       });
       return { notes: updatedNotes };
+    case "NOTE_DELETE_SUCCESS":
+      updatedNotes = state.notes.filter(n => n.id !== action.id);
+      return {
+        notes: updatedNotes,
+      };
+    case "NEW_NOTE_SUCCESS":
+      return { notes: [...state.notes, action.note] };
 
     default:
       return state;

@@ -49,7 +49,6 @@ class LoginForm extends React.Component {
             error: true,
           });
         } else {
-          console.log(data.notes);
           localStorage.setItem("jwt", data.user.token);
           this.props.currentUser(data);
           this.props.notes(data.notes);
@@ -107,7 +106,6 @@ class LoginForm extends React.Component {
     );
   }
 }
-
 
 const mapDispatchToProps = {
   currentUser: loginSuccess,
