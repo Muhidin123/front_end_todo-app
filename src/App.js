@@ -19,10 +19,11 @@ class App extends Component {
   componentDidMount() {
     const token = localStorage.getItem("jwt");
     this.props.history.push("/login");
+
     if (!token) {
       console.log("No token");
+      this.props.history.push("/login");
     } else {
-      console.log(this.props);
       const reqObj = {
         method: "GET",
         headers: {
@@ -35,6 +36,7 @@ class App extends Component {
         .then(data => {
           this.props.currentUser(data);
           this.props.notes(data.notes);
+          this.props.history.push("/todos");
         });
     }
   }

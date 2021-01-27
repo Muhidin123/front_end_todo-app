@@ -23,7 +23,13 @@ export default class Nav extends Component {
               <i className='search link icon'></i>
             </div>
           </div>
-          <Link to='/login' className='ui item'>
+          <Link
+            to='/login'
+            className='ui item'
+            onClick={() => {
+              localStorage.removeItem("jwt");
+            }}
+          >
             LOGOUT
           </Link>
         </div>

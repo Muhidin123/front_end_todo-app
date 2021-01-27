@@ -10,7 +10,7 @@ class CardContainer extends Component {
       <>
         <Nav />
         {this.props.notes && this.props.notes.length > 0 ? (
-          <div className='ui four stackable cards'>
+          <div className='ui four doubling  cards'>
             {this.props.notes.map(note => {
               return <NoteCard note={note} key={note.id} />;
             })}
