@@ -13,6 +13,7 @@
     "faker": "^5.2.0",
     "fomantic-ui": "^2.8.7",
     "fomantic-ui-css": "^2.8.7",
+    "moment": "^2.29.1",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-draft-wysiwyg": "^1.14.5",

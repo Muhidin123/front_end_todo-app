@@ -2,6 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { deleteNoteSuccess } from "../actions/delete";
 import { withRouter } from "react-router-dom";
+import moment from "moment";
 
 class NoteCard extends React.Component {
   constructor(props) {
@@ -33,10 +34,6 @@ class NoteCard extends React.Component {
     });
   };
 
-  // valueTest = () => {
-  //   return this.props.note.description;
-  // };
-
   handleCompletedTodo = () => {
     const { id } = this.state;
 
@@ -67,6 +64,7 @@ class NoteCard extends React.Component {
   };
 
   render() {
+    let difference = moment(`${this.props.note["created_at"]}`).fromNow();
     const { title, description, completed } = this.state;
 
     return (
@@ -93,7 +91,7 @@ class NoteCard extends React.Component {
           </div>
         </div>
         <div className='content'>
-          <div className='meta'>days ago</div>
+          <div className='meta'>{difference}</div>
           <div className='header'>{title}</div>
           <div
             className='description'
@@ -102,7 +100,7 @@ class NoteCard extends React.Component {
         </div>
         <div className='extra content'>
           <i className='check icon'></i>
-          Maybe set a due date
+          Due: {this.props.note.due_date}
           <div className='right floated author'>
             <i className='user circle icon'></i>
             {this.props.name.name}

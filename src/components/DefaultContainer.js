@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import CardContainer from "./CardContainer";
 import { connect } from "react-redux";
 
-import notesReducer from "../reducers/notes";
 
 class DefaultContainer extends Component {
   render() {

@@ -1,16 +1,10 @@
 import React, { Component } from "react";
-import {
-  TextArea,
-  Form,
-  Segment,
-  Button,
-  Grid,
-  Dropdown,
-} from "semantic-ui-react";
-import Nav from "./Nav";
+import { Form, Segment, Button, Grid, Dropdown } from "semantic-ui-react";
 import { connect } from "react-redux";
 import { newNoteSuccess } from "../actions/new";
-import RichTextEditor from "./NewEditorTry";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
+import "react-quill/dist/quill.bubble.css";
 
 const stateOptions = [
   {
@@ -36,12 +30,53 @@ const stateOptions = [
 ];
 
 class NewNoteForm extends Component {
-  state = {
-    title: "",
-    description: "",
-    completed: false,
-    user_id: this.props.user,
-    category: "",
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      title: "",
+      description: "",
+      completed: false,
+      user_id: this.props.user,
+      category: "",
+      due_date: "",
+    };
+
+    this.modules = {
+      toolbar: [
+        [{ font: [] }],
+        [{ size: ["small", false, "large", "huge"] }],
+        ["bold", "italic", "underline"],
+        [{ list: "ordered" }, { list: "bullet" }],
+        [{ align: [] }],
+        [{ color: [] }, { background: [] }],
+        ["clean"],
+      ],
+    };
+
+    this.formats = [
+      "font",
+      "size",
+      "bold",
+      "italic",
+      "underline",
+      "list",
+      "bullet",
+      "align",
+      "color",
+      "background",
+    ];
+
+    this.rteChange = this.rteChange.bind(this);
+  }
+
+  rteChange = (content, delta, source, editor) => {
+    console.log(editor.getHTML());
+    let test = editor.getHTML();
+
+    this.setState({
+      description: test,
+    });
   };
 
   handleChange = e => {
@@ -92,13 +127,15 @@ class NewNoteForm extends Component {
                   onChange={this.handleChange}
                   name='title'
                 />
-                <TextArea
-                  placeholder='Add description here'
-                  onChange={this.handleChange}
-                  name='description'
-                  rows='5'
+                <ReactQuill
+                  theme='snow'
+                  modules={this.modules}
+                  formats={this.formats}
+                  onChange={this.rteChange}
+                  value={this.state.description || ""}
+                  placeholder='Add your description here'
                 />
-                <RichTextEditor />
+                <br />
                 <Dropdown
                   placeholder='Category'
                   fluid
@@ -108,6 +145,14 @@ class NewNoteForm extends Component {
                   value={category}
                   onChange={this.handleChangeSelection}
                 />
+                <br />
+                <input
+                  type='date'
+                  name='due_date'
+                  id='date'
+                  onChange={this.handleChange}
+                />
+
                 <Button color='teal' fluid size='large' type='submit'>
                   Add new note
                 </Button>

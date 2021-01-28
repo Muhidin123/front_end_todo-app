@@ -66,23 +66,27 @@ class SingleCard extends Component {
     ];
 
     this.rteChange = this.rteChange.bind(this);
-
-    let filteredNote = this.props.note.find(note => {
+    this.filteredNote = this.props.note.find(note => {
       return note.id == this.props.match.params.id;
     });
 
+    // let filteredNote = this.props.note.find(note => {
+    //   return note.id == this.props.match.params.id;
+    // });
+
     this.state = {
-      id: filteredNote.id,
-      title: filteredNote.title,
-      description: filteredNote.description,
-      completed: filteredNote.completed,
+      id: this.filteredNote.id,
+      title: this.filteredNote.title,
+      description: this.filteredNote.description,
+      completed: this.filteredNote.completed,
+      due_date: this.filteredNote.due_date,
       category: {},
     };
   }
 
-  componentDidMount = () => {
-    console.log(this.props);
-  };
+  // componentDidMount = () => {
+  //   console.log(this.props);
+  // };
 
   handleSubmit = e => {
     e.preventDefault();
@@ -104,8 +108,6 @@ class SingleCard extends Component {
   };
 
   rteChange = (content, delta, source, editor) => {
-    console.log(editor.getHTML()); // rich text
-    console.log(editor.getText()); // plain text
     let test = editor.getHTML();
 
     this.setState({
@@ -155,6 +157,12 @@ class SingleCard extends Component {
                   selection
                   options={stateOptions}
                   onChange={this.handleChangeSelection}
+                />
+                <input
+                  type='date'
+                  name='date'
+                  id='date'
+                  onChange={this.handleChange}
                 />
                 <Button
                   color='teal'

@@ -20,7 +20,7 @@ const notesReducer = (state = [], action) => {
     case "NEW_NOTE_SUCCESS":
       return [...state, action.note];
     case "SORT_NOTES_SUCCESS":
-      updatedNotes = state.sort(sortNotes(action.key, action.option));
+      updatedNotes = [...state.sort(sortNotes(action.key, action.option))];
       return updatedNotes;
 
     default:
