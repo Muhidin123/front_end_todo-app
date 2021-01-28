@@ -8,7 +8,7 @@ import {
   Dropdown,
 } from "semantic-ui-react";
 import { connect } from "react-redux";
-import { updateNotesSuccess } from "../actions/update";
+import { newNoteSuccess } from "../actions/new";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import "react-quill/dist/quill.bubble.css";
@@ -36,7 +36,7 @@ const stateOptions = [
   },
 ];
 
-class SingleCard extends Component {
+class TestNewNoteForm extends Component {
   constructor(props) {
     super(props);
 
@@ -65,47 +65,18 @@ class SingleCard extends Component {
       "background",
     ];
 
-    this.rteChange = this.rteChange.bind(this);
-
-    let filteredNote = this.props.note.find(note => {
-      return note.id == this.props.match.params.id;
-    });
-
     this.state = {
-      id: filteredNote.id,
-      title: filteredNote.title,
-      description: filteredNote.description,
-      completed: filteredNote.completed,
-      category: {},
+      title: "",
+      completed: false,
+      user_id: 2,
+      category: "",
+      description: "",
     };
+
+    this.rteChange = this.rteChange.bind(this);
   }
-
-  componentDidMount = () => {
-    console.log(this.props);
-  };
-
-  handleSubmit = e => {
-    e.preventDefault();
-    const reqObj = {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(this.state),
-    };
-
-    fetch(`http://localhost:3000/notes/${this.state.id}`, reqObj)
-      .then(resp => resp.json())
-      .then(data => {
-        console.log(data);
-        this.props.updateNote(data);
-        this.props.history.goBack();
-      });
-  };
-
   rteChange = (content, delta, source, editor) => {
-    console.log(editor.getHTML()); // rich text
-    console.log(editor.getText()); // plain text
+    console.log(editor.getHTML());
     let test = editor.getHTML();
 
     this.setState({
@@ -119,11 +90,36 @@ class SingleCard extends Component {
     });
   };
 
-  handleChangeSelection = (e, { value }) => this.setState({ category: value });
+  handleSubmit = () => {
+    const reqObj = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(this.state),
+    };
+
+    console.log(this.state);
+
+    fetch("http://localhost:3000/notes", reqObj)
+      .then(resp => resp.json())
+      .then(note => {
+        console.log(note);
+        this.props.newNote(note);
+        this.props.history.push("/todos");
+      });
+  };
+
+  handleChangeSelection = (e, { value }) => {
+    console.log(this.state);
+    return this.setState({ category: value });
+  };
 
   render() {
+    const { category } = this.state;
     return (
       <div>
+        {/* <Nav /> */}
         <Grid
           textAlign='center'
           style={{ height: "50vh" }}
@@ -133,20 +129,23 @@ class SingleCard extends Component {
             <Segment stacked>
               <Form onSubmit={this.handleSubmit} size='large'>
                 <Form.Field
-                  label='Title'
-                  value={this.state.title}
                   control='input'
                   placeholder='Add title here'
                   onChange={this.handleChange}
                   name='title'
                 />
+                <TextArea
+                  placeholder='Add description here'
+                  onChange={this.handleChange}
+                  name='description'
+                  rows='5'
+                />
                 <ReactQuill
-                  label='Description'
                   theme='snow'
                   modules={this.modules}
                   formats={this.formats}
                   onChange={this.rteChange}
-                  value={this.state.description}
+                  value={this.state.description || ""}
                 />
                 <Dropdown
                   placeholder='Category'
@@ -154,16 +153,11 @@ class SingleCard extends Component {
                   search
                   selection
                   options={stateOptions}
+                  value={category}
                   onChange={this.handleChangeSelection}
                 />
-                <Button
-                  color='teal'
-                  fluid
-                  size='large'
-                  type='submit'
-                  onClick={this.handleClick}
-                >
-                  Edit
+                <Button color='teal' fluid size='large' type='submit'>
+                  Add new note
                 </Button>
               </Form>
             </Segment>
@@ -173,15 +167,14 @@ class SingleCard extends Component {
     );
   }
 }
-
 const mapStateToProps = state => {
   return {
-    note: state.notes,
+    user: state.currentUser.id,
   };
 };
 
 const mapDispatchToProps = {
-  updateNote: updateNotesSuccess,
+  newNote: newNoteSuccess,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(SingleCard);
+export default connect(mapStateToProps, mapDispatchToProps)(TestNewNoteForm);

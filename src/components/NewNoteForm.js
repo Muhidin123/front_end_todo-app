@@ -10,6 +10,7 @@ import {
 import Nav from "./Nav";
 import { connect } from "react-redux";
 import { newNoteSuccess } from "../actions/new";
+import RichTextEditor from "./NewEditorTry";
 
 const stateOptions = [
   {
@@ -97,6 +98,7 @@ class NewNoteForm extends Component {
                   name='description'
                   rows='5'
                 />
+                <RichTextEditor />
                 <Dropdown
                   placeholder='Category'
                   fluid

@@ -28,11 +28,14 @@ class NoteCard extends React.Component {
     const reqObj = {
       method: "DELETE",
     };
-
     fetch(`http://localhost:3000/notes/${id}`, reqObj).then(_data => {
       this.props.delete(id);
     });
   };
+
+  // valueTest = () => {
+  //   return this.props.note.description;
+  // };
 
   handleCompletedTodo = () => {
     const { id } = this.state;
@@ -92,9 +95,10 @@ class NoteCard extends React.Component {
         <div className='content'>
           <div className='meta'>days ago</div>
           <div className='header'>{title}</div>
-          <div className='description'>
-            <p>{description}</p>
-          </div>
+          <div
+            className='description'
+            dangerouslySetInnerHTML={{ __html: description }}
+          ></div>
         </div>
         <div className='extra content'>
           <i className='check icon'></i>

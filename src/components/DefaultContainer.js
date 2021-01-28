@@ -14,7 +14,4 @@ class DefaultContainer extends Component {
   }
 }
 
-// const mapStateToProps = {
-//   note: notesReducer,
-// };
 export default connect(null, null)(DefaultContainer);

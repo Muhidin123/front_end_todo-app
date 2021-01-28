@@ -14,13 +14,13 @@ import SingleCard from "./components/SingleCard";
 import NewNoteForm from "./components/NewNoteForm";
 import { loginSuccess } from "./actions/login";
 import { notesFetchSuccess } from "./actions/notes";
-import RichEditor from "./components/RichEditor";
+// import RichEditor from "./components/RichEditor";
 import DefaultContainer from "./components/DefaultContainer";
 import Nav from "./components/Nav";
+import RichTextEditor from "./components/NewEditorTry";
+import TestNewNoteForm from './components/TestNewForm';
 
 class App extends Component {
-
-
   componentDidMount() {
     const token = localStorage.getItem("jwt");
     this.props.history.push("/login");
@@ -59,15 +59,14 @@ class App extends Component {
             <Route exact path='/todos' component={DefaultContainer} />
             <Route exact path='/todos/edit/:id' component={SingleCard} />
             <Route exact path='/todos/new' component={NewNoteForm} />
-            <Route exact path='/editor' component={RichEditor} />
+            <Route exact path='/editor' component={RichTextEditor} />
+            <Route exact path='/test/new/form' component={TestNewNoteForm} />
           </Switch>
         </Router>
       </div>
     );
   }
 }
-
-
 
 const mapDispatchToProps = {
   currentUser: loginSuccess,
