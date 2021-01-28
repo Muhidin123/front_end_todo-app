@@ -4,8 +4,15 @@ import { connect } from "react-redux";
 
 import React, { Component } from "react";
 import { sortNotesSuccess } from "../actions/sort";
+import { searchNotesSuccess } from "../actions/search";
 
 class Nav extends Component {
+
+  handleChange = e => {
+    
+    this.props.search(e.target.value);
+  };
+
   render() {
     return (
       <div className='ui secondary menu'>
@@ -18,29 +25,18 @@ class Nav extends Component {
         <Link to='' className='item'>
           THINK WHAT TO PUT
         </Link>
-        {/* <div class='ui text menu'>
-          <div class='header item'>Sort By</div>
-          <Button>Created</Button>
-          <Button>Due date</Button>
-        </div> */}
         <Dropdown text='Sort by' className='item'>
           <Dropdown.Menu>
             <Dropdown.Item
-              text='Date created'
-              onClick={() => {
-                this.props.sort("created")
-              }}
-            />
-            <Dropdown.Item
               text='A - Z'
               onClick={() => {
-                this.props.sort('title')
+                this.props.sort("title");
               }}
             />
             <Dropdown.Item
               text='Z - A'
               onClick={() => {
-                this.props.sort('title', 'desc')
+                this.props.sort("title", "desc");
               }}
             />
           </Dropdown.Menu>
@@ -48,7 +44,11 @@ class Nav extends Component {
         <div className='right menu'>
           <div className='item'>
             <div className='ui icon input'>
-              <input type='text' placeholder='Search...' />
+              <input
+                type='text'
+                placeholder='Search...'
+                onChange={this.handleChange}
+              />
               <i className='search link icon'></i>
             </div>
           </div>
@@ -70,6 +70,7 @@ class Nav extends Component {
 
 const mapDispatchToProps = {
   sort: sortNotesSuccess,
+  search: searchNotesSuccess,
 };
 
 export default connect(null, mapDispatchToProps)(Nav);

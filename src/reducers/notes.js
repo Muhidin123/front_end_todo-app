@@ -22,6 +22,13 @@ const notesReducer = (state = [], action) => {
     case "SORT_NOTES_SUCCESS":
       updatedNotes = [...state.sort(sortNotes(action.key, action.option))];
       return updatedNotes;
+    case "SEARCH_NOTES_SUCCESS":
+      updatedNotes = [
+        ...state.filter(note =>
+          note.title.toLowerCase().includes(action.input)
+        ),
+      ];
+      return updatedNotes;
 
     default:
       return state;

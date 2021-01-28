@@ -1,14 +1,10 @@
 import React, { Component } from "react";
-import {
-  TextArea,
-  Form,
-  Segment,
-  Button,
-  Grid,
-  Dropdown,
-} from "semantic-ui-react";
+import { Form, Segment, Button, Grid, Dropdown } from "semantic-ui-react";
 import { connect } from "react-redux";
 import { updateNotesSuccess } from "../actions/update";
+import { loginSuccess } from "../actions/login";
+import { notesFetchSuccess } from "../actions/notes";
+
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import "react-quill/dist/quill.bubble.css";
@@ -70,10 +66,6 @@ class SingleCard extends Component {
       return note.id == this.props.match.params.id;
     });
 
-    // let filteredNote = this.props.note.find(note => {
-    //   return note.id == this.props.match.params.id;
-    // });
-
     this.state = {
       id: this.filteredNote.id,
       title: this.filteredNote.title,
@@ -83,10 +75,6 @@ class SingleCard extends Component {
       category: {},
     };
   }
-
-  // componentDidMount = () => {
-  //   console.log(this.props);
-  // };
 
   handleSubmit = e => {
     e.preventDefault();
@@ -190,6 +178,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = {
   updateNote: updateNotesSuccess,
+  currentUser: loginSuccess,
+  notes: notesFetchSuccess,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(SingleCard);
