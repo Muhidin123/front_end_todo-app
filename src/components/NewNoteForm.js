@@ -1,8 +1,38 @@
 import React, { Component } from "react";
-import { TextArea, Form, Segment, Button, Grid } from "semantic-ui-react";
+import {
+  TextArea,
+  Form,
+  Segment,
+  Button,
+  Grid,
+  Dropdown,
+} from "semantic-ui-react";
 import Nav from "./Nav";
 import { connect } from "react-redux";
 import { newNoteSuccess } from "../actions/new";
+
+const stateOptions = [
+  {
+    key: "whatever",
+    text: "whatever",
+    value: "whatever",
+  },
+  {
+    key: "work",
+    text: "Work",
+    value: "work",
+  },
+  {
+    key: "just cuz",
+    text: "Just cuz",
+    value: "just cuz",
+  },
+  {
+    key: "fun",
+    text: "Fun",
+    value: "fun",
+  },
+];
 
 class NewNoteForm extends Component {
   state = {
@@ -10,6 +40,7 @@ class NewNoteForm extends Component {
     description: "",
     completed: false,
     user_id: this.props.user,
+    category: "",
   };
 
   handleChange = e => {
@@ -36,10 +67,16 @@ class NewNoteForm extends Component {
       });
   };
 
+  handleChangeSelection = (e, { value }) => {
+    console.log(this.state);
+    return this.setState({ category: value });
+  };
+
   render() {
+    const { category } = this.state;
     return (
       <div>
-        <Nav />
+        {/* <Nav /> */}
         <Grid
           textAlign='center'
           style={{ height: "50vh" }}
@@ -60,6 +97,15 @@ class NewNoteForm extends Component {
                   name='description'
                   rows='5'
                 />
+                <Dropdown
+                  placeholder='Category'
+                  fluid
+                  search
+                  selection
+                  options={stateOptions}
+                  value={category}
+                  onChange={this.handleChangeSelection}
+                />
                 <Button color='teal' fluid size='large' type='submit'>
                   Add new note
                 </Button>
@@ -73,7 +119,7 @@ class NewNoteForm extends Component {
 }
 const mapStateToProps = state => {
   return {
-    user: state.currentUser.user.id,
+    user: state.currentUser.id,
   };
 };
 

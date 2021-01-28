@@ -1,7 +1,36 @@
 import React, { Component } from "react";
-import { TextArea, Form, Segment, Button, Grid } from "semantic-ui-react";
+import {
+  TextArea,
+  Form,
+  Segment,
+  Button,
+  Grid,
+  Dropdown,
+} from "semantic-ui-react";
 import { connect } from "react-redux";
 import { updateNotesSuccess } from "../actions/update";
+const stateOptions = [
+  {
+    key: "whatever",
+    text: "whatever",
+    value: "whatever",
+  },
+  {
+    key: "work",
+    text: "Work",
+    value: "work",
+  },
+  {
+    key: "just cuz",
+    text: "Just cuz",
+    value: "just cuz",
+  },
+  {
+    key: "fun",
+    text: "Fun",
+    value: "fun",
+  },
+];
 
 class SingleCard extends Component {
   constructor(props) {
@@ -16,6 +45,7 @@ class SingleCard extends Component {
       title: filteredNote.title,
       description: filteredNote.description,
       completed: filteredNote.completed,
+      category: {},
     };
   }
 
@@ -48,6 +78,8 @@ class SingleCard extends Component {
     });
   };
 
+  handleChangeSelection = (e, { value }) => this.setState({ category: value });
+
   render() {
     return (
       <div>
@@ -59,8 +91,11 @@ class SingleCard extends Component {
           <Grid.Column style={{ maxWidth: 450 }}>
             <Segment stacked>
               <Form onSubmit={this.handleSubmit} size='large'>
-                <TextArea
+                <Form.Field
+                  label='Title'
                   value={this.state.title}
+                  control='input'
+                  placeholder='Add title here'
                   onChange={this.handleChange}
                   name='title'
                 />
@@ -69,6 +104,14 @@ class SingleCard extends Component {
                   value={this.state.description}
                   onChange={this.handleChange}
                   name='description'
+                />
+                <Dropdown
+                  placeholder='Category'
+                  fluid
+                  search
+                  selection
+                  options={stateOptions}
+                  onChange={this.handleChangeSelection}
                 />
                 <Button
                   color='teal'
@@ -90,7 +133,7 @@ class SingleCard extends Component {
 
 const mapStateToProps = state => {
   return {
-    note: state.notes.notes,
+    note: state.notes,
   };
 };
 

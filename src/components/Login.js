@@ -46,9 +46,10 @@ class LoginForm extends React.Component {
         if (data.error) {
           console.log(data.error);
           this.setState({
-            error: true,
+            error: data.error,
           });
         } else {
+          console.log(data);
           localStorage.setItem("jwt", data.user.token);
           this.props.currentUser(data);
           this.props.notes(data.notes);
@@ -68,7 +69,7 @@ class LoginForm extends React.Component {
           <Header as='h2' color='teal' textAlign='center'>
             Log-in to your account
           </Header>
-          <Form size='large' onSubmit={this.handleSubmit}>
+          <Form size='large' onSubmit={this.handleSubmit} error='false'>
             <Segment stacked>
               <Form.Input
                 fluid

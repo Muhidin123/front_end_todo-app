@@ -9,13 +9,18 @@ import {
 import { connect } from "react-redux";
 import LoginForm from "./components/Login";
 import SignUp from "./components/SignUp";
-import CardContainer from "./components/CardContainer";
+// import CardContainer from "./components/CardContainer";
 import SingleCard from "./components/SingleCard";
 import NewNoteForm from "./components/NewNoteForm";
 import { loginSuccess } from "./actions/login";
 import { notesFetchSuccess } from "./actions/notes";
+import RichEditor from "./components/RichEditor";
+import DefaultContainer from "./components/DefaultContainer";
+import Nav from "./components/Nav";
 
 class App extends Component {
+
+
   componentDidMount() {
     const token = localStorage.getItem("jwt");
     this.props.history.push("/login");
@@ -41,20 +46,28 @@ class App extends Component {
     }
   }
   render() {
+    const token = localStorage.getItem("jwt");
+
     return (
-      <Router>
-        <Switch>
-          <Route exact path='/' render={() => <Redirect to='/login' />} />
-          <Route path='/login' component={LoginForm} />
-          <Route path='/sign-up' component={SignUp} />
-          <Route exact path='/todos' component={CardContainer} />
-          <Route exact path='/todos/edit/:id' component={SingleCard} />
-          <Route exact path='/todos/new' component={NewNoteForm} />
-        </Switch>
-      </Router>
+      <div id='test'>
+        <Router>
+          {token ? <Nav /> : null}
+          <Switch>
+            <Route exact path='/' render={() => <Redirect to='/login' />} />
+            <Route path='/login' component={LoginForm} />
+            <Route path='/sign-up' component={SignUp} />
+            <Route exact path='/todos' component={DefaultContainer} />
+            <Route exact path='/todos/edit/:id' component={SingleCard} />
+            <Route exact path='/todos/new' component={NewNoteForm} />
+            <Route exact path='/editor' component={RichEditor} />
+          </Switch>
+        </Router>
+      </div>
     );
   }
 }
+
+
 
 const mapDispatchToProps = {
   currentUser: loginSuccess,

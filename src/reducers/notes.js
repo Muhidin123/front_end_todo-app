@@ -1,26 +1,27 @@
+import sortNotes from "./SortSearchHelper";
+
 const notesReducer = (state = [], action) => {
   let updatedNotes = [];
   switch (action.type) {
     case "NOTES_FETCH_SUCCESS":
-      return {
-        notes: action.notes,
-      };
+      return action.notes;
     case "UPDATE_NOTE_SUCCESS":
-      updatedNotes = state.notes.map(n => {
+      updatedNotes = state.map(n => {
         if (n.id === action.note.id) {
           return action.note;
         } else {
           return n;
         }
       });
-      return { notes: updatedNotes };
+      return updatedNotes;
     case "NOTE_DELETE_SUCCESS":
-      updatedNotes = state.notes.filter(n => n.id !== action.id);
-      return {
-        notes: updatedNotes,
-      };
+      updatedNotes = state.filter(n => n.id !== action.id);
+      return updatedNotes;
     case "NEW_NOTE_SUCCESS":
-      return { notes: [...state.notes, action.note] };
+      return [...state, action.note];
+    case "SORT_NOTES_SUCCESS":
+      updatedNotes = state.sort(sortNotes(action.key, action.option));
+      return updatedNotes;
 
     default:
       return state;

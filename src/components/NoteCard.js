@@ -22,23 +22,20 @@ class NoteCard extends React.Component {
     this.props.history.push(`/todos/edit/${id}`);
   };
 
-  handleDelete = params => {
+  handleDelete = () => {
     const { id } = this.props.note;
 
     const reqObj = {
       method: "DELETE",
     };
 
-    fetch(`http://localhost:3000/notes/${id}`, reqObj).then(data => {
+    fetch(`http://localhost:3000/notes/${id}`, reqObj).then(_data => {
       this.props.delete(id);
     });
   };
 
   handleCompletedTodo = () => {
     const { id } = this.state;
-    // this.setState({
-    //   completed: !this.state.completed,
-    // });
 
     const updatedNote = {
       ...this.state,
@@ -93,7 +90,7 @@ class NoteCard extends React.Component {
           </div>
         </div>
         <div className='content'>
-          <div className='meta'>2 days ago</div>
+          <div className='meta'>days ago</div>
           <div className='header'>{title}</div>
           <div className='description'>
             <p>{description}</p>
@@ -103,7 +100,8 @@ class NoteCard extends React.Component {
           <i className='check icon'></i>
           Maybe set a due date
           <div className='right floated author'>
-            <i className='user circle icon'></i> First Name
+            <i className='user circle icon'></i>
+            {this.props.name.name}
           </div>
         </div>
         <div className='ui two buttons'>

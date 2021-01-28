@@ -12,6 +12,17 @@ const store = createStore(
   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
 );
 
+// store.subscribe(() => {
+//   if (store.getState().action.indexOf["notesReducer"] !== -1) {
+//     console.log("subscribed for counter actions", store.getState());
+//   }
+// });
+
+
+
+
+console.log(store);
+
 ReactDOM.render(
   <Provider store={store}>
     <Router>
@@ -20,3 +31,9 @@ ReactDOM.render(
   </Provider>,
   document.getElementById("root")
 );
+
+
+// store.subscribe( () => {
+//   console.log(store.getState())
+//   render()
+//  })
