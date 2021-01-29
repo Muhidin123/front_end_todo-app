@@ -12,7 +12,7 @@ import "react-quill/dist/quill.bubble.css";
 const stateOptions = [
   {
     key: "whatever",
-    text: "whatever",
+    text: "Whatever",
     value: "whatever",
   },
   {
@@ -148,7 +148,7 @@ class SingleCard extends Component {
                 />
                 <input
                   type='date'
-                  name='date'
+                  name='due_date'
                   id='date'
                   onChange={this.handleChange}
                 />

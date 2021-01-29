@@ -7,10 +7,8 @@ import { sortNotesSuccess } from "../actions/sort";
 import { searchNotesSuccess } from "../actions/search";
 
 class Nav extends Component {
-
   handleChange = e => {
-    
-    this.props.search(e.target.value);
+    this.props.search(e.target.value.toLowerCase());
   };
 
   render() {
@@ -22,9 +20,9 @@ class Nav extends Component {
         <Link to='/todos/new' className='item'>
           NEW NOTE
         </Link>
-        <Link to='' className='item'>
+        {/* <Link to='' className='item'>
           THINK WHAT TO PUT
-        </Link>
+        </Link> */}
         <Dropdown text='Sort by' className='item'>
           <Dropdown.Menu>
             <Dropdown.Item

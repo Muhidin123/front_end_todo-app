@@ -92,7 +92,9 @@ class NoteCard extends React.Component {
         </div>
         <div className='content'>
           <div className='meta'>{difference}</div>
+          <br />
           <div className='header'>{title}</div>
+          <br />
           <div
             className='description'
             dangerouslySetInnerHTML={{ __html: description }}

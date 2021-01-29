@@ -25,7 +25,7 @@ const notesReducer = (state = [], action) => {
     case "SEARCH_NOTES_SUCCESS":
       updatedNotes = [
         ...state.filter(note =>
-          note.title.toLowerCase().includes(action.input)
+          note.title.toLowerCase().includes(action.input) || note.description.toLowerCase().includes(action.input)
         ),
       ];
       return updatedNotes;
