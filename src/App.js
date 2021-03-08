@@ -31,7 +31,10 @@ class App extends Component {
         },
       };
 
-      fetch("http://localhost:3000/current_user", reqObj)
+      fetch(
+        "https://afternoon-harbor-70437.herokuapp.com/notes/${this.state.id}/current_user",
+        reqObj
+      )
         .then(resp => resp.json())
         .then(data => {
           this.props.currentUser(data);

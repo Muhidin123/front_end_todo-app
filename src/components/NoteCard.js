@@ -29,7 +29,10 @@ class NoteCard extends React.Component {
     const reqObj = {
       method: "DELETE",
     };
-    fetch(`http://localhost:3000/notes/${id}`, reqObj).then(_data => {
+    fetch(
+      `https://afternoon-harbor-70437.herokuapp.com/notes/${id}`,
+      reqObj
+    ).then(_data => {
       this.props.delete(id);
     });
   };
@@ -50,7 +53,7 @@ class NoteCard extends React.Component {
       body: JSON.stringify(updatedNote),
     };
 
-    fetch(`http://localhost:3000/notes/${id}`, reqObj)
+    fetch(`https://afternoon-harbor-70437.herokuapp.com/notes/${id}`, reqObj)
       .then(resp => resp.json())
       .then(data => {
         console.log(data);
