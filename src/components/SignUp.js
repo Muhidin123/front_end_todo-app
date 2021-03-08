@@ -43,15 +43,12 @@ class SignUp extends React.Component {
       body: JSON.stringify(this.state),
     };
 
-    console.log(this.state);
-
     fetch("http://localhost:3000/users", reqObj)
       .then(resp => resp.json())
       .then(data => {
         if (data.error) {
-          console.log(data.error);
+          this.props.history.push("/login");
         }
-        console.log(data.notes);
         localStorage.setItem("jwt", data.user.token);
         this.props.currentUser(data);
         this.props.notes(data.notes);

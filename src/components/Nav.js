@@ -20,9 +20,6 @@ class Nav extends Component {
         <Link to='/todos/new' className='item'>
           NEW NOTE
         </Link>
-        {/* <Link to='' className='item'>
-          THINK WHAT TO PUT
-        </Link> */}
         <Dropdown text='Sort by' className='item'>
           <Dropdown.Menu>
             <Dropdown.Item

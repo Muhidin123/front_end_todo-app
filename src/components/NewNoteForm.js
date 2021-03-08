@@ -71,7 +71,6 @@ class NewNoteForm extends Component {
   }
 
   rteChange = (content, delta, source, editor) => {
-    console.log(editor.getHTML());
     let test = editor.getHTML();
 
     this.setState({
@@ -97,14 +96,13 @@ class NewNoteForm extends Component {
     fetch("http://localhost:3000/notes", reqObj)
       .then(resp => resp.json())
       .then(note => {
-        console.log(note);
+        // console.log(note);
         this.props.newNote(note);
         this.props.history.push("/todos");
       });
   };
 
   handleChangeSelection = (e, { value }) => {
-    console.log(this.state);
     return this.setState({ category: value });
   };
 
@@ -112,7 +110,6 @@ class NewNoteForm extends Component {
     const { category } = this.state;
     return (
       <div>
-        {/* <Nav /> */}
         <Grid
           textAlign='center'
           style={{ height: "50vh" }}

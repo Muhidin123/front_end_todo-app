@@ -63,7 +63,7 @@ class SingleCard extends Component {
 
     this.rteChange = this.rteChange.bind(this);
     this.filteredNote = this.props.note.find(note => {
-      return note.id == this.props.match.params.id;
+      return note.id === parseInt(this.props.match.params.id);
     });
 
     this.state = {
@@ -89,7 +89,6 @@ class SingleCard extends Component {
     fetch(`http://localhost:3000/notes/${this.state.id}`, reqObj)
       .then(resp => resp.json())
       .then(data => {
-        console.log(data);
         this.props.updateNote(data);
         this.props.history.goBack();
       });

@@ -53,6 +53,7 @@ class NoteCard extends React.Component {
     fetch(`http://localhost:3000/notes/${id}`, reqObj)
       .then(resp => resp.json())
       .then(data => {
+        console.log(data);
         const { id, title, description, completed } = data;
         this.setState({
           id,

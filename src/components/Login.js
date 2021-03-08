@@ -44,7 +44,6 @@ class LoginForm extends React.Component {
       .then(resp => resp.json())
       .then(data => {
         if (data.error) {
-          console.log(data.error);
           this.setState({
             error: data.error,
           });
