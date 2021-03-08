@@ -49,7 +49,6 @@ class LoginForm extends React.Component {
             error: data.error,
           });
         } else {
-          console.log(data);
           localStorage.setItem("jwt", data.user.token);
           this.props.currentUser(data);
           this.props.notes(data.notes);
