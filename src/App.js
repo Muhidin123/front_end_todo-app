@@ -19,18 +19,17 @@ import Nav from "./components/Nav";
 class App extends Component {
   componentDidMount() {
     const token = localStorage.getItem("jwt");
+    const route = this.props.location.pathname;
 
-    if (!token) {
-      console.log("No token");
+    if (!token && route === "/login" && route !== "/sign-up") {
       this.props.history.push("/login");
-    } else {
+    } else if (token && route === "/login") {
       const reqObj = {
         method: "GET",
         headers: {
           Authorization: `Bearer ${token}`,
         },
       };
-
       fetch("http://localhost:3000/current_user", reqObj)
         .then(resp => resp.json())
         .then(data => {
@@ -38,6 +37,8 @@ class App extends Component {
           this.props.notes(data.notes);
           this.props.history.push("/todos");
         });
+    } else {
+      this.props.history.push("/sign-up");
     }
   }
   render() {
