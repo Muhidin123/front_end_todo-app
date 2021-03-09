@@ -14,7 +14,6 @@ import NewNoteForm from "./components/NewNoteForm";
 import { loginSuccess } from "./actions/login";
 import { notesFetchSuccess } from "./actions/notes";
 import DefaultContainer from "./components/DefaultContainer";
-import Nav from "./components/Nav";
 
 class App extends Component {
   state = {

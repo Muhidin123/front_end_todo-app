@@ -56,7 +56,6 @@ class NoteCard extends React.Component {
     fetch(`https://afternoon-harbor-70437.herokuapp.com/notes/${id}`, reqObj)
       .then(resp => resp.json())
       .then(data => {
-        console.log(data);
         const { id, title, description, completed } = data;
         this.setState({
           id,
