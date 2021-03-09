@@ -15,11 +15,6 @@ import { loginSuccess } from "../actions/login";
 
 class SignUp extends React.Component {
   state = {
-    // errors: {
-    //   passwordError: false,
-    //   username: false,
-    //   email: false,
-    // },
     user: {
       first_name: "",
       last_name: "",
@@ -40,39 +35,28 @@ class SignUp extends React.Component {
   };
 
   handleSubmit = () => {
-    console.log(this.state.user);
     const reqObj = {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(this.state.user),
+      body: JSON.stringify(this.state),
     };
 
-    fetch("http://localhost:3000/users", reqObj)
+    fetch("https://afternoon-harbor-70437.herokuapp.com/users", reqObj)
       .then(resp => resp.json())
       .then(data => {
         if (data.error) {
-          // for (let [_key, value] of Object.entries(data.error)) {
-          //   console.log(value[0]);
-          // }
-          console.log(data.error);
-          // this.setState({
-          //   ...this.state,
-          //   errors: data.error,
-          // });
-        } else {
-          localStorage.setItem("jwt", data.user.token);
-          this.props.currentUser(data);
-          this.props.notes(data.notes);
-          this.props.history.push("/todos");
-          console.log(data);
+          this.props.history.push("/login");
         }
+        localStorage.setItem("jwt", data.user.token);
+        this.props.currentUser(data);
+        this.props.notes(data.notes);
+        this.props.history.push("/todos");
       });
   };
 
   render() {
-    // const { username, email, passwordError } = this.state.errors;
     return (
       <Grid
         textAlign='center'
@@ -81,11 +65,13 @@ class SignUp extends React.Component {
       >
         <Grid.Column style={{ maxWidth: 450 }}>
           <Header as='h2' color='teal' textAlign='center'>
+            {/* <Image src="/logo.png" /> Log-in to your account */}
             Sign-up to use App
           </Header>
           <Form size='large' onSubmit={this.handleSubmit}>
             <Segment stacked>
               <Form.Input
+                fluid
                 name='first_name'
                 icon='user'
                 iconPosition='left'
@@ -95,6 +81,7 @@ class SignUp extends React.Component {
                 }}
               />
               <Form.Input
+                fluid
                 name='last_name'
                 icon='user'
                 iconPosition='left'
@@ -104,7 +91,7 @@ class SignUp extends React.Component {
                 }}
               />
               <Form.Input
-                // error={username ? username : null}
+                fluid
                 name='username'
                 icon='user'
                 iconPosition='left'
@@ -114,7 +101,7 @@ class SignUp extends React.Component {
                 }}
               />
               <Form.Input
-                // error={email ? email : null}
+                fluid
                 icon='mail'
                 name='email'
                 iconPosition='left'
@@ -124,7 +111,7 @@ class SignUp extends React.Component {
                 }}
               />
               <Form.Input
-                // error={passwordError ? passwordError : null}
+                fluid
                 icon='lock'
                 iconPosition='left'
                 placeholder='Password'
@@ -135,6 +122,7 @@ class SignUp extends React.Component {
                 }}
               />
               <TextArea
+                fluid
                 icon='lock'
                 iconPosition='left'
                 placeholder='Tell us about yourself'
