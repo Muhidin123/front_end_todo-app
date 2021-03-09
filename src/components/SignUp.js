@@ -15,6 +15,7 @@ import { loginSuccess } from "../actions/login";
 
 class SignUp extends React.Component {
   state = {
+    errors: null,
     user: {
       first_name: "",
       last_name: "",
@@ -43,16 +44,21 @@ class SignUp extends React.Component {
       body: JSON.stringify(this.state),
     };
 
-    fetch("https://afternoon-harbor-70437.herokuapp.com/users", reqObj)
+    fetch("http://localhost:3000/users", reqObj)
       .then(resp => resp.json())
       .then(data => {
         if (data.error) {
-          this.props.history.push("/login");
+          console.log(data.error);
+          this.setState({
+            errors: data.error,
+          });
+          this.props.history.push("/sign-up");
+        } else {
+          localStorage.setItem("jwt", data.user.token);
+          this.props.currentUser(data);
+          this.props.notes(data.notes);
+          this.props.history.push("/todos");
         }
-        localStorage.setItem("jwt", data.user.token);
-        this.props.currentUser(data);
-        this.props.notes(data.notes);
-        this.props.history.push("/todos");
       });
   };
 
@@ -65,7 +71,6 @@ class SignUp extends React.Component {
       >
         <Grid.Column style={{ maxWidth: 450 }}>
           <Header as='h2' color='teal' textAlign='center'>
-            {/* <Image src="/logo.png" /> Log-in to your account */}
             Sign-up to use App
           </Header>
           <Form size='large' onSubmit={this.handleSubmit}>
@@ -140,11 +145,18 @@ class SignUp extends React.Component {
           <Message>
             Back to Login? <a href='/login'>Login</a>
           </Message>
+          {this.state.errors
+            ? this.state.errors.map(err => {
+                i++;
+                return <Message error content={err} key={i} />;
+              })
+            : null}
         </Grid.Column>
       </Grid>
     );
   }
 }
+let i = 0;
 
 const mapDispatchToProps = {
   currentUser: loginSuccess,

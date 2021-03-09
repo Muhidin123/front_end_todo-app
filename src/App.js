@@ -17,13 +17,16 @@ import DefaultContainer from "./components/DefaultContainer";
 import Nav from "./components/Nav";
 
 class App extends Component {
+  state = {
+    route: "",
+  };
+
   componentDidMount() {
     const token = localStorage.getItem("jwt");
-    const route = this.props.location.pathname;
 
-    if (!token && route === "/login" && route !== "/sign-up") {
+    if (!token) {
       this.props.history.push("/login");
-    } else if (token && route === "/login") {
+    } else {
       const reqObj = {
         method: "GET",
         headers: {
@@ -37,17 +40,12 @@ class App extends Component {
           this.props.notes(data.notes);
           this.props.history.push("/todos");
         });
-    } else {
-      this.props.history.push("/sign-up");
     }
   }
   render() {
-    const token = localStorage.getItem("jwt");
-
     return (
       <div id='test'>
         <Router>
-          {token ? <Nav /> : null}
           <Switch>
             <Route exact path='/' render={() => <Redirect to='/login' />} />
             <Route path='/login' component={LoginForm} />
