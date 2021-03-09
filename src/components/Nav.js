@@ -1,10 +1,10 @@
 import { Link } from "react-router-dom";
 import { Dropdown } from "semantic-ui-react";
 import { connect } from "react-redux";
-
 import React, { Component } from "react";
 import { sortNotesSuccess } from "../actions/sort";
 import { searchNotesSuccess } from "../actions/search";
+import { withRouter } from "react-router-dom";
 
 class Nav extends Component {
   handleChange = e => {
@@ -68,4 +68,4 @@ const mapDispatchToProps = {
   search: searchNotesSuccess,
 };
 
-export default connect(null, mapDispatchToProps)(Nav);
+export default connect(null, mapDispatchToProps)(withRouter(Nav));

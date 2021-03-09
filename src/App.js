@@ -17,11 +17,14 @@ import DefaultContainer from "./components/DefaultContainer";
 import Nav from "./components/Nav";
 
 class App extends Component {
+  state = {
+    route: "",
+  };
+
   componentDidMount() {
     const token = localStorage.getItem("jwt");
 
     if (!token) {
-      console.log("No token");
       this.props.history.push("/login");
     } else {
       const reqObj = {
@@ -41,12 +44,9 @@ class App extends Component {
     }
   }
   render() {
-    const token = localStorage.getItem("jwt");
-
     return (
       <div id='test'>
         <Router>
-          {token ? <Nav /> : null}
           <Switch>
             <Route exact path='/' render={() => <Redirect to='/login' />} />
             <Route path='/login' component={LoginForm} />
