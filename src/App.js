@@ -16,10 +16,6 @@ import { notesFetchSuccess } from "./actions/notes";
 import DefaultContainer from "./components/DefaultContainer";
 
 class App extends Component {
-  state = {
-    route: "",
-  };
-
   componentDidMount() {
     const token = localStorage.getItem("jwt");
 
@@ -32,10 +28,10 @@ class App extends Component {
           Authorization: `Bearer ${token}`,
         },
       };
-
       fetch("https://afternoon-harbor-70437.herokuapp.com/current_user", reqObj)
         .then(resp => resp.json())
         .then(data => {
+          console.log(data);
           this.props.currentUser(data);
           this.props.notes(data.notes);
           this.props.history.push("/todos");
