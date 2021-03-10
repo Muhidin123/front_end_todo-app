@@ -2,6 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { loginSuccess } from "../actions/login";
 import { notesFetchSuccess } from "../actions/notes";
+import ReactLoading from "react-loading";
 
 import {
   Button,
@@ -20,6 +21,7 @@ class LoginForm extends React.Component {
       username: "",
       password: "",
       error: false,
+      isLoading: false,
     };
   }
 
@@ -40,7 +42,7 @@ class LoginForm extends React.Component {
       body: JSON.stringify(this.state),
     };
 
-  fetch("http://localhost:3000/auth", reqObj)
+    fetch("http://localhost:3000/auth", reqObj)
       .then(resp => resp.json())
       .then(data => {
         if (data.error) {
@@ -52,56 +54,65 @@ class LoginForm extends React.Component {
           this.props.currentUser(data);
           this.props.notes(data.notes);
           this.props.history.push("/todos");
+          this.setState({
+            isLoading: true,
+          });
         }
       });
   };
 
   render() {
     return (
-      <Grid
-        textAlign='center'
-        style={{ height: "100vh" }}
-        verticalAlign='middle'
-      >
-        <Grid.Column style={{ maxWidth: 450 }}>
-          <Header as='h2' color='teal' textAlign='center'>
-            Log-in to your account
-          </Header>
-          <Form size='large' onSubmit={this.handleSubmit} error='false'>
-            <Segment stacked>
-              <Form.Input
-                fluid
-                icon='user'
-                iconPosition='left'
-                placeholder='username'
-                name='username'
-                onChange={e => {
-                  this.handleChange(e);
-                }}
-                error={this.state.error}
-              />
-              <Form.Input
-                fluid
-                icon='lock'
-                name='password'
-                iconPosition='left'
-                placeholder='Password'
-                type='password'
-                onChange={e => {
-                  this.handleChange(e);
-                }}
-                error={this.state.error}
-              />
-              <Button color='teal' fluid size='large'>
-                Login
-              </Button>
-            </Segment>
-          </Form>
-          <Message>
-            New to us? <a href='/sign-up'>Sign Up</a>
-          </Message>
-        </Grid.Column>
-      </Grid>
+      <>
+        {this.state.isLoading ? (
+          <ReactLoading type='cubes' color='blue' height={667} width={375} />
+        ) : (
+          <Grid
+            textAlign='center'
+            style={{ height: "100vh" }}
+            verticalAlign='middle'
+          >
+            <Grid.Column style={{ maxWidth: 450 }}>
+              <Header as='h2' color='teal' textAlign='center'>
+                Log-in to your account
+              </Header>
+              <Form size='large' onSubmit={this.handleSubmit} error='false'>
+                <Segment stacked>
+                  <Form.Input
+                    fluid
+                    icon='user'
+                    iconPosition='left'
+                    placeholder='username'
+                    name='username'
+                    onChange={e => {
+                      this.handleChange(e);
+                    }}
+                    error={this.state.error}
+                  />
+                  <Form.Input
+                    fluid
+                    icon='lock'
+                    name='password'
+                    iconPosition='left'
+                    placeholder='Password'
+                    type='password'
+                    onChange={e => {
+                      this.handleChange(e);
+                    }}
+                    error={this.state.error}
+                  />
+                  <Button color='teal' fluid size='large'>
+                    Login
+                  </Button>
+                </Segment>
+              </Form>
+              <Message>
+                New to us? <a href='/sign-up'>Sign Up</a>
+              </Message>
+            </Grid.Column>
+          </Grid>
+        )}
+      </>
     );
   }
 }
