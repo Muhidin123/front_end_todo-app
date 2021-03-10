@@ -20,6 +20,7 @@ class App extends Component {
     const token = localStorage.getItem("jwt");
 
     if (!token) {
+      console.log("THERE IS NO TOKEN IN LOCAL STORAGE");
       this.props.history.push("/login");
     } else {
       const reqObj = {

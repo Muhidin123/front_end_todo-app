@@ -87,7 +87,7 @@ class SingleCard extends Component {
     };
 
     fetch(
-      `https://afternoon-harbor-70437.herokuapp.com/${this.state.id}`,
+      `https://afternoon-harbor-70437.herokuapp.com/notes/${this.state.id}`,
       reqObj
     )
       .then(resp => resp.json())
