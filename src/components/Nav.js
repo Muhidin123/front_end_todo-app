@@ -15,10 +15,10 @@ class Nav extends Component {
     return (
       <div className='ui secondary menu'>
         <Link to='/todos' className='item'>
-          HOME
+          Home
         </Link>
         <Link to='/todos/new' className='item'>
-          NEW NOTE
+          New note
         </Link>
         <Dropdown text='Sort by' className='item'>
           <Dropdown.Menu>
@@ -55,7 +55,7 @@ class Nav extends Component {
               localStorage.removeItem("jwt");
             }}
           >
-            LOGOUT
+            Logout
           </Link>
         </div>
       </div>

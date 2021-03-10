@@ -29,11 +29,9 @@ class NoteCard extends React.Component {
     const reqObj = {
       method: "DELETE",
     };
-    fetch(`https://afternoon-harbor-70437.herokuapp.com/notes/${id}`, reqObj).then(
-      _data => {
-        this.props.delete(id);
-      }
-    );
+    fetch(`http://localhost:3000/notes/${id}`, reqObj).then(_data => {
+      this.props.delete(id);
+    });
   };
 
   handleCompletedTodo = () => {
@@ -52,7 +50,7 @@ class NoteCard extends React.Component {
       body: JSON.stringify(updatedNote),
     };
 
-    fetch(`https://afternoon-harbor-70437.herokuapp.com/notes/${id}`, reqObj)
+    fetch(`http://localhost:3000/notes/${id}`, reqObj)
       .then(resp => resp.json())
       .then(data => {
         const { id, title, description, completed } = data;

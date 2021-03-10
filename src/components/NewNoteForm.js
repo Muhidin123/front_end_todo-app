@@ -93,7 +93,7 @@ class NewNoteForm extends Component {
       body: JSON.stringify(this.state),
     };
 
-    fetch("https://afternoon-harbor-70437.herokuapp.com/notes", reqObj)
+    fetch("http://localhost:3000/notes", reqObj)
       .then(resp => resp.json())
       .then(note => {
         this.props.newNote(note);

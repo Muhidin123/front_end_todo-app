@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { loginSuccess } from "../actions/login";
 import { notesFetchSuccess } from "../actions/notes";
-import ReactLoading from "react-loading";
+import LoadingIndication from "./LoadingIndication";
 
 import {
   Button,
@@ -25,8 +25,6 @@ class LoginForm extends React.Component {
     };
   }
 
-  componentDidMount = () => {};
-
   handleChange = e => {
     this.setState({
       [e.target.name]: e.target.value,
@@ -42,30 +40,47 @@ class LoginForm extends React.Component {
       body: JSON.stringify(this.state),
     };
 
-    fetch("https://afternoon-harbor-70437.herokuapp.com/auth", reqObj)
-      .then(resp => resp.json())
-      .then(data => {
-        if (data.error) {
-          this.setState({
-            error: data.error,
-          });
-        } else {
-          localStorage.setItem("jwt", data.user.token);
-          this.props.currentUser(data);
-          this.props.notes(data.notes);
-          this.props.history.push("/todos");
-          this.setState({
-            isLoading: true,
-          });
-        }
-      });
+    this.setState({ isLoading: true }, () => {
+      fetch("http://localhost:3000/auth", reqObj)
+        .then(resp => resp.json())
+        .then(data => {
+          if (data.error) {
+            this.setState({
+              error: data.error,
+            });
+          } else {
+            this.setState({
+              isLoading: false,
+            });
+            localStorage.setItem("jwt", data.user.token);
+            this.props.currentUser(data);
+            this.props.notes(data.notes);
+            this.props.history.push("/todos");
+          }
+        });
+    });
+
+    // fetch("http://localhost:3000/auth", reqObj)
+    //   .then(resp => resp.json())
+    //   .then(data => {
+    //     if (data.error) {
+    //       this.setState({
+    //         error: data.error,
+    //       });
+    //     } else {
+    //       localStorage.setItem("jwt", data.user.token);
+    //       this.props.currentUser(data);
+    //       this.props.notes(data.notes);
+    //       this.props.history.push("/todos");
+    //     }
+    //   });
   };
 
   render() {
     return (
       <>
         {this.state.isLoading ? (
-          <ReactLoading type='cubes' color='blue' height={667} width={375} />
+          <LoadingIndication />
         ) : (
           <Grid
             textAlign='center'
