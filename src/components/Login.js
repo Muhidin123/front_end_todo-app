@@ -42,7 +42,7 @@ class LoginForm extends React.Component {
       body: JSON.stringify(this.state),
     };
 
-    fetch("http://localhost:3000/auth", reqObj)
+    fetch("https://afternoon-harbor-70437.herokuapp.com/auth", reqObj)
       .then(resp => resp.json())
       .then(data => {
         if (data.error) {

@@ -44,7 +44,7 @@ class SignUp extends React.Component {
       body: JSON.stringify(this.state),
     };
 
-    fetch("http://localhost:3000/users", reqObj)
+    fetch("https://afternoon-harbor-70437.herokuapp.com/users", reqObj)
       .then(resp => resp.json())
       .then(data => {
         if (data.error) {

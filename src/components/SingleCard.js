@@ -86,7 +86,10 @@ class SingleCard extends Component {
       body: JSON.stringify(this.state),
     };
 
-    fetch(`http://localhost:3000/notes/${this.state.id}`, reqObj)
+    fetch(
+      `https://afternoon-harbor-70437.herokuapp.com/${this.state.id}`,
+      reqObj
+    )
       .then(resp => resp.json())
       .then(data => {
         this.props.updateNote(data);
