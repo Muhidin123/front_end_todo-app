@@ -16,10 +16,6 @@ import { notesFetchSuccess } from "./actions/notes";
 import DefaultContainer from "./components/DefaultContainer";
 
 class App extends Component {
-  state = {
-    route: "",
-  };
-
   componentDidMount() {
     const token = localStorage.getItem("jwt");
 
@@ -32,7 +28,6 @@ class App extends Component {
           Authorization: `Bearer ${token}`,
         },
       };
-
       fetch("http://localhost:3000/current_user", reqObj)
         .then(resp => resp.json())
         .then(data => {
